@@ -26,7 +26,7 @@ route.get('/search', async (ctx) => {
 
 route.post('/train', async (ctx) => {
   const { questions, answer, group } = ctx.request.body;
-  questions?.forEach((question) => {
+  questions.forEach((question) => {
     addDocument({
       question,
       group

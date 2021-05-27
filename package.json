@@ -1,0 +1,25 @@
+{
+  "name": "nlp-node",
+  "version": "1.0.0",
+  "description": "nlp处理自然语言",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "pm2 start app.json",
+    "reload": "pm2 startOrReload app.json"
+  },
+  "keywords": [],
+  "author": "七彩",
+  "license": "ISC",
+  "dependencies": {
+    "@nlpjs/core": "^4.22.0",
+    "@nlpjs/lang-en-min": "^4.22.0",
+    "@nlpjs/lang-zh": "^4.22.0",
+    "@nlpjs/nlp": "^4.22.0",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.0.0",
+    "mysql": "^2.18.1",
+    "pm2": "^4.5.6"
+  }
+}

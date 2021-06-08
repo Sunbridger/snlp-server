@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
+const crossOrigin = require('./middleware/cross-origin');
 const {
   initTrainNLP,
   getAnswerFromNLP,
@@ -14,16 +15,7 @@ const { saveAnswerData, saveQuestionData } = require('./mysql');
 const app = new Koa();
 let route = new Router();
 
-app.use(async (ctx, next)=> {
-  ctx.set('Access-Control-Allow-Origin', '*');
-  ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
-  ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  if (ctx.method == 'OPTIONS') {
-    ctx.body = 200;
-  } else {
-    await next();
-  }
-});
+app.use(crossOrigin);
 
 app.use(bodyParser());
 
@@ -31,7 +23,26 @@ route.get('/search', async (ctx) => {
   const { keyword } = ctx.query;
   const answer = await getAnswerFromNLP(keyword);
   ctx.body = {
-    data: answer
+    type: 'text', // todo 根据类型判断
+    content: {
+      text: answer,
+    },
+  };
+});
+
+// todo 点赞点踩
+route.get('/evaluate', async (ctx) => {
+  const { question, answer, type } = ctx.query;
+  ctx.body = {
+    success: true,
+  };
+});
+
+// todo 反馈
+route.post('/feedback', async (ctx) => {
+  const { question, answer, comment } = ctx.request.body;
+  ctx.body = {
+    success: true,
   };
 });
 
@@ -54,7 +65,8 @@ route.post('/train', async (ctx) => {
   await train();
 
   ctx.body = {
-    data: '训练完成',
+    success: true,
+    result: '训练完成',
   };
 
 });

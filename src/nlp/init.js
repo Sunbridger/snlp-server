@@ -48,6 +48,7 @@ const addAnswerInit = async () => {
 // 获取 NLP 匹配的数据
 const getAnswerFromNLP = async (keyword) => {
   const response = await nlp.process(ZH, keyword);
+  console.log(response, '---response');
   return response.answer;
 };
 // NLP 增加问题训练

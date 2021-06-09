@@ -27,7 +27,7 @@ route.get('/search', async (ctx) => {
     content: {
       code: 'knowledge',
       data: {
-        text: answer
+        text: answer || '等我长大了再告诉你吧～'
       }
     },
     meta: {

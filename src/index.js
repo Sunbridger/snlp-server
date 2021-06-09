@@ -23,10 +23,16 @@ route.get('/search', async (ctx) => {
   const { keyword } = ctx.query;
   const answer = await getAnswerFromNLP(keyword);
   ctx.body = {
-    type: 'text', // todo 根据类型判断
+    type: 'card',
     content: {
-      text: answer,
+      code: 'knowledge',
+      data: {
+        text: answer
+      }
     },
+    meta: {
+      evaluable: true // 是否展示点赞点踩按钮
+    }
   };
 });
 

@@ -16,10 +16,10 @@
     "@nlpjs/lang-en-min": "^4.22.0",
     "@nlpjs/lang-zh": "^4.22.0",
     "@nlpjs/nlp": "^4.22.0",
+    "ali-mysql-client": "^1.0.7",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.0.0",
-    "mysql": "^2.18.1",
     "pm2": "^4.5.6"
   }
 }

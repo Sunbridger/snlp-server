@@ -6,24 +6,22 @@ const { getQuestion, getAnswer } = require('../mysql');
 const ZH = 'zh';
 let nlp = null;
 
-// 初始化 NLP 实例
-const initNLP = async () => {
+// 初始化 NLP 服务
+const initNLPServer = async () => {
   const container = await containerBootstrap();
   container.use(Nlp);
   container.use(LangZh);
   nlp = container.get('nlp');
   nlp.settings.autoSave = false;
   nlp.addLanguage(ZH);
-};
-// NLP 训练
-const train = async () => {
-  await nlp.train();
-};
-// 初始化 NLP 训练
-const initTrainNLP = async () => {
   await addDocumentInit();
   await addAnswerInit();
   await train();
+}
+
+// NLP 训练
+const train = async () => {
+  await nlp.train();
 };
 // 初始化 NLP 从问题库里拉取数据训练问题
 const addDocumentInit = async () => {
@@ -31,9 +29,6 @@ const addDocumentInit = async () => {
   const arr = await getQuestion();
   // 优化为分片？
   await Promise.all(arr.map(async ({ question, group_name: group }) => addDocument({ question, group })));
-  // arr.forEach(({ question, group_name: group }) => {
-  //   addDocument({ question, group });
-  // });
 };
 // 初始化 NLP 从答案库里拉取数据训练答案
 const addAnswerInit = async () => {
@@ -46,7 +41,7 @@ const addAnswerInit = async () => {
 };
 
 // 获取 NLP 匹配的数据
-const getAnswerFromNLP = async (keyword) => {
+const getAnswerByNLP = async (keyword) => {
   const response = await nlp.process(ZH, keyword);
   console.log(response, '---response');
   return response.answer;
@@ -60,13 +55,14 @@ const addAnswer = async ({ answer, group }) => {
   await nlp.addAnswer(ZH, group, answer);
 };
 
-module.exports = {
-  initTrainNLP,
-  getAnswerFromNLP,
+const manualTrain = {
   addDocument,
   addAnswer,
-  addDocumentInit,
-  addAnswerInit,
-  initNLP,
   train,
+};
+
+module.exports = {
+  getAnswerByNLP,
+  initNLPServer,
+  manualTrain,
 };

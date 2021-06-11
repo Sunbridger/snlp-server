@@ -16,13 +16,16 @@ let route = new Router();
 
 app.use(crossOrigin);
 
-app.use(bodyParser());
+app.use(bodyParser({
+  enableTypes: ['json', 'form', 'text'],
+}));
 
 route.get('/search', async (ctx) => {
   const { keyword } = ctx.query;
   const answer = await getAnswerByNLP(keyword);
   ctx.body = {
     type: 'card',
+    _id: keyword,
     content: {
       code: 'knowledge',
       data: {
@@ -37,24 +40,23 @@ route.get('/search', async (ctx) => {
 
 // todo 点赞点踩
 route.get('/evaluate', async (ctx) => {
-  const { evaluateType, messageId } = ctx.query;
+  const { evaluateType, question } = ctx.query;
   ctx.body = {
     success: true,
     data: {
       evaluateType,
-      messageId,
+      question,
     }
   };
 });
 
 // todo 反馈
-route.get('/feedback', async (ctx) => {
-  const { messageId, text } = ctx.query;
+route.post('/feedback', async (ctx) => {
+  const { question, category, comment } = ctx.request.body;
   ctx.body = {
     success: true,
     data: {
-      messageId,
-      text,
+      question, category, comment,
     }
   };
 });

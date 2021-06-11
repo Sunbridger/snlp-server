@@ -38,17 +38,25 @@ route.get('/search', async (ctx) => {
 
 // todo 点赞点踩
 route.get('/evaluate', async (ctx) => {
-  const { question, answer, type } = ctx.query;
+  const { evaluateType, messageId } = ctx.query;
   ctx.body = {
     success: true,
+    data: {
+      evaluateType,
+      messageId,
+    }
   };
 });
 
 // todo 反馈
 route.post('/feedback', async (ctx) => {
-  const { question, answer, comment } = ctx.request.body;
+  const { messageId, text } = ctx.request.body;
   ctx.body = {
     success: true,
+    data: {
+      messageId,
+      text,
+    }
   };
 });
 

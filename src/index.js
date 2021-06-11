@@ -49,8 +49,8 @@ route.get('/evaluate', async (ctx) => {
 });
 
 // todo 反馈
-route.post('/feedback', async (ctx) => {
-  const { messageId, text } = ctx.request.body;
+route.get('/feedback', async (ctx) => {
+  const { messageId, text } = ctx.query;
   ctx.body = {
     success: true,
     data: {

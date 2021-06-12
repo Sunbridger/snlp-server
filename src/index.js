@@ -8,7 +8,7 @@ const {
   manualTrain,
 } = require('./nlp/init');
 const { port } = require('../config');
-const { saveAllData } = require('./mysql');
+const { saveAllData, saveFeedBackData } = require('./mysql');
 
 const app = new Koa();
 
@@ -38,25 +38,25 @@ route.get('/search', async (ctx) => {
   };
 });
 
-// todo 点赞点踩
 route.get('/evaluate', async (ctx) => {
-  const { evaluateType, question } = ctx.query;
+  const { answer_type, question } = ctx.query;
+  await saveFeedBackData({ answer_type, question });
   ctx.body = {
     success: true,
     data: {
-      evaluateType,
+      answer_type,
       question,
     }
   };
 });
 
-// todo 反馈
 route.post('/feedback', async (ctx) => {
-  const { question, category, comment } = ctx.request.body;
+  const { question, category, remark } = ctx.request.body;
+  await saveFeedBackData({ question, category, remark }, false);
   ctx.body = {
     success: true,
     data: {
-      question, category, comment,
+      question, category, remark,
     }
   };
 });

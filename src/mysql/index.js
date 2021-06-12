@@ -44,10 +44,23 @@ const saveAllData = async ({ answer, question, group: group_name }) => {
   return result;
 }
 
+const saveFeedBackData = async ({ question, answer_type, category, remark }, isSert = true) => {
+  isSert 
+    ? 
+  await DB.insert('feedback_table', {
+    question, answer_type,
+  }).execute() 
+    :
+  await DB.update('feedback_table', {
+    category, remark,
+  }).where('question', question).execute();
+}
+
 module.exports = {
   getQuestion,
   getAnswer,
   saveAnswerData,
   saveQuestionData,
   saveAllData,
+  saveFeedBackData,
 }

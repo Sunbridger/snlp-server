@@ -20,16 +20,42 @@ app.use(bodyParser({
   enableTypes: ['json', 'form', 'text'],
 }));
 
+route.get('/hotquestion', async (ctx) => {
+  ctx.body = {
+    success: true,
+    data: [
+      {
+        title: '收到商品不新鲜怎么办？',
+        hot: true,
+        content: '收到商品不新鲜怎么办？'
+      },
+      {
+        title: '怎么改配送时间/地址/电话？',
+        hot: true,
+        content: '配送时间/地址/电话错了，怎么修改'
+      },
+      {
+        title: '我的订单什么时间配送',
+        content: '我的订单什么时间配送'
+      },
+      {
+        title: '已下单，还能临时加/减商品吗？',
+        content: '已下单，还能临时加/减商品吗？'
+      }
+    ],
+  };
+});
+
 route.get('/search', async (ctx) => {
   const { keyword } = ctx.query;
   const answer = await getAnswerByNLP(keyword);
   ctx.body = {
     type: 'card',
-    _id: keyword,
+    _id: `${keyword}?=${answer}`,
     content: {
       code: 'knowledge',
       data: {
-        text: answer || '等我长大了再告诉你吧～'
+        text: answer || `「${keyword}」这个问题等我长大了再告诉你吧～`
       }
     },
     meta: {
@@ -39,24 +65,25 @@ route.get('/search', async (ctx) => {
 });
 
 route.get('/evaluate', async (ctx) => {
-  const { answer_type, question } = ctx.query;
-  await saveFeedBackData({ answer_type, question });
+  const { answer_type, question, answer } = ctx.query;
+  await saveFeedBackData({ answer_type, question, answer });
   ctx.body = {
     success: true,
     data: {
       answer_type,
       question,
+      answer,
     }
   };
 });
 
 route.post('/feedback', async (ctx) => {
-  const { question, category, remark } = ctx.request.body;
-  await saveFeedBackData({ question, category, remark }, false);
+  const { question, category, remark, answer } = ctx.request.body;
+  await saveFeedBackData({ question, answer, category, remark }, false);
   ctx.body = {
     success: true,
     data: {
-      question, category, remark,
+      question, category, remark, answer
     }
   };
 });

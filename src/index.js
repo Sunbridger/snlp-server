@@ -38,6 +38,10 @@ route.get('/hotquestion', async (ctx) => {
         title: '关于政采云前端团队？',
         content: '关于政采云前端团队？'
       },
+      {
+        title: '我要去训练',
+        content: '我要去训练'
+      },
     ],
   };
 });

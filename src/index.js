@@ -39,8 +39,8 @@ route.get('/hotquestion', async (ctx) => {
         content: '关于政采云前端团队？'
       },
       {
-        title: '我要去训练',
-        content: '我要去训练'
+        title: '敦煌是什么？',
+        content: '敦煌是什么？'
       },
     ],
   };

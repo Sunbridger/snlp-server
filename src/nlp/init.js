@@ -6,12 +6,19 @@ const { getQuestion, getAnswer } = require('../mysql');
 const ZH = 'zh';
 let nlp = null;
 
+// nlp 钩子函数
+const onIntent = (nlp, input) => {
+  console.log(input);
+  return input;
+}
+
 // 初始化 NLP 服务
 const initNLPServer = async () => {
   const container = await containerBootstrap();
   container.use(Nlp);
   container.use(LangZh);
   nlp = container.get('nlp');
+  nlp.onIntent = onIntent;
   nlp.settings.autoSave = false;
   nlp.addLanguage(ZH);
   await addDocumentInit();
@@ -43,7 +50,7 @@ const addAnswerInit = async () => {
 // 获取 NLP 匹配的数据
 const getAnswerByNLP = async (keyword) => {
   const response = await nlp.process(ZH, keyword);
-  console.log(response, '---response');
+  // console.log(response, '---response');
   return response.answer;
 };
 // NLP 增加问题训练

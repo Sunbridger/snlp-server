@@ -25,23 +25,19 @@ route.get('/hotquestion', async (ctx) => {
     success: true,
     data: [
       {
-        title: '收到商品不新鲜怎么办？',
+        title: '公司目前有哪些基建？',
         hot: true,
-        content: '收到商品不新鲜怎么办？'
+        content: '公司目前有哪些基建？'
       },
       {
-        title: '怎么改配送时间/地址/电话？',
+        title: '新人入职相关文档在哪看？',
         hot: true,
-        content: '配送时间/地址/电话错了，怎么修改'
+        content: '新人入职相关文档在哪看？'
       },
       {
-        title: '我的订单什么时间配送',
-        content: '我的订单什么时间配送'
+        title: '关于政采云前端团队？',
+        content: '关于政采云前端团队？'
       },
-      {
-        title: '已下单，还能临时加/减商品吗？',
-        content: '已下单，还能临时加/减商品吗？'
-      }
     ],
   };
 });

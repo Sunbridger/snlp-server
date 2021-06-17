@@ -33,11 +33,8 @@ route.get('/autocomplete', async (ctx) => {
     id,
   }));
   ctx.body = {
-    success: true,
-    data: {
-      list: result,
-      keyword,
-    }
+    list: result,
+    keyword,
   };
 });
 

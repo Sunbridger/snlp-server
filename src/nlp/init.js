@@ -17,6 +17,7 @@ const onIntent = (nlp, input) => {
 const initNLPServer = async () => {
   const container = await containerBootstrap();
   segment = new TokenizerZh(container);
+  // console.log(segment.innerTokenize('如何使用敦煌呢'))
   container.use(Nlp);
   container.use(LangZh);
   nlp = container.get('nlp');

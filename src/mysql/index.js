@@ -57,6 +57,14 @@ const saveFeedBackData = async ({ question, answer_type, category, remark, answe
   .execute();
 }
 
+const getQuestionByKeyWord = async ({ keyword }) => {
+  const result = await DB.select('*')
+    .from('question_table')
+    .where('question', keyword, 'like', 'ifHave')
+    .queryList();
+  return result;
+}
+
 module.exports = {
   getQuestion,
   getAnswer,
@@ -64,4 +72,5 @@ module.exports = {
   saveQuestionData,
   saveAllData,
   saveFeedBackData,
+  getQuestionByKeyWord,
 }

@@ -8,7 +8,11 @@ const {
   manualTrain,
 } = require('./nlp/init');
 const { port } = require('../config');
-const { saveAllData, saveFeedBackData } = require('./mysql');
+const { 
+  saveAllData, 
+  saveFeedBackData, 
+  getQuestionByKeyWord,
+} = require('./mysql');
 
 const app = new Koa();
 
@@ -19,6 +23,23 @@ app.use(crossOrigin);
 app.use(bodyParser({
   enableTypes: ['json', 'form', 'text'],
 }));
+
+route.get('/autocomplete', async (ctx) => {
+  const { keyword } = ctx.query;
+  let result = await getQuestionByKeyWord({ keyword });
+  result = result.map(({ question: title, group_name: keyword, id }) => ({
+    title,
+    keyword,
+    id,
+  }));
+  ctx.body = {
+    success: true,
+    data: {
+      list: result,
+      keyword,
+    }
+  };
+});
 
 route.get('/hotquestion', async (ctx) => {
   ctx.body = {
